@@ -12,8 +12,6 @@ class WrongCat : public WrongAnimal
 		WrongCat& operator=(const WrongCat& ref);
 		void		makeSound() const;
 		virtual std::string	getType() const;
-	private:
-		std::string type;
 };
 
 #endif
