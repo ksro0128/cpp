@@ -1,7 +1,7 @@
 CPP = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98
-SRCS = main.cpp AMateria.cpp Character.cpp Ice.cpp Cure.cpp MateriaSource.cpp
-HPPS = AMateria.hpp Character.hpp ICharacter.hpp IMateriaSource.hpp Ice.hpp Cure.hpp MateriaSource.hpp main.hpp
+SRCS = main.cpp Bureaucrat.cpp
+HPPS = Bureaucrat.hpp
 OBJS = $(SRCS:.cpp=.o)
 NAME = a.out
 
