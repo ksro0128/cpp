@@ -1,7 +1,7 @@
 CPP = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98
-SRCS = main.cpp Bureaucrat.cpp Form.cpp
-HPPS = Bureaucrat.hpp Form.hpp
+SRCS = main.cpp Bureaucrat.cpp AForm.cpp
+HPPS = Bureaucrat.hpp AForm.hpp
 OBJS = $(SRCS:.cpp=.o)
 NAME = a.out
 

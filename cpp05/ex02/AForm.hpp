@@ -1,18 +1,18 @@
-#ifndef FORM_HPP
-# define FORM_HPP
+#ifndef AFORM_HPP
+# define AFORM_HPP
 
 # include <iostream>
 # include <exception>
 # include "Bureaucrat.hpp"
 
-class Form
+class AForm
 {
 	public:
-		Form();
-		Form(const std::string name, const int gradeToSign, const int gradeToExecute);
-		~Form();
-		Form(const Form& ref);
-		Form&	operator=(const Form& ref);
+		AForm();
+		AForm(const std::string name, const int gradeToSign, const int gradeToExecute);
+		~AForm();
+		AForm(const AForm& ref);
+		AForm&	operator=(const AForm& ref);
 		std::string getName() const;
 		bool		getIsSigned() const;
 		int			getGradeTosign() const;
@@ -37,6 +37,6 @@ class Form
 		const int			_gradeToExecute;
 };
 
-std::ostream& operator<<(std::ostream &os, const Form& obj);
+std::ostream& operator<<(std::ostream &os, const AForm& obj);
 
 #endif
