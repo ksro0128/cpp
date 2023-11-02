@@ -1,21 +1,19 @@
-#ifndef BUREAUCRAT_HPP
-# define BUREAUCRAT_HPP
+#ifndef FORM_HPP
+# define FORM_HPP
 
 # include <iostream>
 # include <exception>
 
-class Bureaucrat
+class Form
 {
 	public:
-		Bureaucrat();
-		Bureaucrat(const std::string name, int grade);
-		~Bureaucrat();
-		Bureaucrat(const Bureaucrat& ref);
-		Bureaucrat&	operator=(const Bureaucrat& ref);
+		Form();
+		Form(const std::string name, int grade);
+		~Form();
+		Form(const Form& ref);
+		Form&	operator=(const Form& ref);
 		std::string getName() const;
 		int			getGrade() const;
-		void		incrementGrade(int i);
-		void		decrementGrade(int i);
 		class GradeTooHighException : public std::exception
 		{
 			public:
@@ -33,6 +31,6 @@ class Bureaucrat
 		int					_grade;
 };
 
-std::ostream& operator<<(std::ostream &os, const Bureaucrat& obj);
+std::ostream& operator<<(std::ostream &os, const Form& obj);
 
 #endif
