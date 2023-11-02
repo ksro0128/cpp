@@ -10,7 +10,7 @@ int main(void)
 	}
 	catch (std::exception& e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << "Exception : " << e.what() << std::endl;
 	}
 	try
 	{
@@ -20,7 +20,7 @@ int main(void)
 	}
 	catch (std::exception& e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << "Exception : " << e.what() << std::endl;
 	}
 	try
 	{
@@ -31,7 +31,7 @@ int main(void)
 	}
 	catch (std::exception& e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << "Exception : " << e.what() << std::endl;
 	}
 	try
 	{
@@ -42,6 +42,6 @@ int main(void)
 	}
 	catch (std::exception& e)
 	{
-		std::cout << e.what() << std::endl;
+		std::cout << "Exception : " << e.what() << std::endl;
 	}
 }
