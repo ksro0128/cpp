@@ -5,12 +5,14 @@
 # include <exception>
 # include "Bureaucrat.hpp"
 
+class Bureaucrat;
+
 class AForm
 {
 	public:
 		AForm();
 		AForm(const std::string name, const int gradeToSign, const int gradeToExecute);
-		~AForm();
+		virtual ~AForm();
 		AForm(const AForm& ref);
 		AForm&	operator=(const AForm& ref);
 		std::string getName() const;
@@ -30,7 +32,7 @@ class AForm
 		};
 
 
-	private:
+	protected:
 		const std::string	_name;
 		bool				_isSigned;
 		const int			_gradeToSign;
