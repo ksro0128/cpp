@@ -1,10 +1,5 @@
 #include "ShrubberyCreationForm.hpp"
 
-ShrubberyCreationForm::ShrubberyCreationForm() : AForm()
-{
-
-}
-
 ShrubberyCreationForm::ShrubberyCreationForm(std::string name) : AForm(name, 145, 137)
 {
 
@@ -17,29 +12,26 @@ ShrubberyCreationForm::~ShrubberyCreationForm()
 
 ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& ref) : AForm(ref.getName(), ref.getGradeTosign(), ref.getGradeToExecute())
 {
-
+	setSign(ref.getIsSigned());
 }
 
 
-ShrubberyCreationForm& ShrubberyCreationForm::operator=(const ShrubberyCreationForm& ref)
+ShrubberyCreationForm& ShrubberyCreationForm::operator=(ShrubberyCreationForm ref)
 {
-	if (this != &ref)
-	{
-		const_cast<std::string&>(_name) = ref._name;
-		const_cast<int&>(_gradeToSign) = ref._gradeToSign;
-		const_cast<int&>(_gradeToExecute) = ref._gradeToExecute;
-		_isSigned = ref._isSigned;
-	}
+	swap(ref);
 	return (*this);
 }
 
-void		ShrubberyCreationForm::beSigned(const Bureaucrat& a)
+void		ShrubberyCreationForm::execute(Bureaucrat const & executor) const
 {
-	if (a.getGrade() <= _gradeToSign)
+	if (getIsSigned() == false)
+		throw (NotSignedException());
+	else if (getGradeToExecute() < executor.getGrade())
+		throw (GradeTooLowException());
+	else
 	{
 		std::ofstream ofs;
-
-		ofs.open(_name + "_shrubbery");
+		ofs.open(getName() + "_shrubbery");
 		ofs << "    oxoxoo    ooxoo" << std::endl;
 		ofs << "  ooxoxo oo  oxoxooo" << std::endl;
 		ofs << " oooo xxoxoo ooo ooox" << std::endl;
@@ -55,5 +47,4 @@ void		ShrubberyCreationForm::beSigned(const Bureaucrat& a)
 		ofs << "  ______/____\\____" << std::endl;
 		ofs.close();
 	}
-	
 }

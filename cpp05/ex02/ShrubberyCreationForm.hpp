@@ -9,12 +9,14 @@
 class ShrubberyCreationForm : public AForm
 {
 	public:
-		ShrubberyCreationForm();
 		ShrubberyCreationForm(std::string name);
 		~ShrubberyCreationForm();
 		ShrubberyCreationForm(const ShrubberyCreationForm& ref);
-		ShrubberyCreationForm&	operator=(const ShrubberyCreationForm& ref);
-		void		beSigned(const Bureaucrat& a);
+		ShrubberyCreationForm&	operator=(ShrubberyCreationForm ref);
+		void	beSigned(const Bureaucrat& a);
+		void	execute(Bureaucrat const & executor) const;
+	private:
+		ShrubberyCreationForm();
 };
 
 #endif
