@@ -10,10 +10,11 @@ class Bureaucrat;
 class AForm
 {
 	public:
-		AForm(const std::string name, const int gradeToSign, const int gradeToExecute);
+		AForm(const std::string name, const std::string target,const int gradeToSign, const int gradeToExecute);
 		AForm(const AForm& ref);
 		virtual ~AForm();
 		std::string getName() const;
+		std::string getTarget() const;
 		bool		getIsSigned() const;
 		int			getGradeTosign() const;
 		int			getGradeToExecute() const;
@@ -41,6 +42,7 @@ class AForm
 		AForm();
 		AForm&	operator=(const AForm& ref);
 		const std::string	_name;
+		const std::string	_target;
 		bool				_isSigned;
 		const int			_gradeToSign;
 		const int			_gradeToExecute;

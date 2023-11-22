@@ -9,11 +9,10 @@
 class RobotomyRequestForm : public AForm
 {
 	public:
-		RobotomyRequestForm(std::string name);
+		RobotomyRequestForm(std::string target);
 		~RobotomyRequestForm();
 		RobotomyRequestForm(const RobotomyRequestForm& ref);
 		RobotomyRequestForm&	operator=(RobotomyRequestForm ref);
-		void	beSigned(const Bureaucrat& a);
 		void	execute(Bureaucrat const & executor) const;
 	private:
 		RobotomyRequestForm();

@@ -1,6 +1,7 @@
 #include "RobotomyRequestForm.hpp"
 
-RobotomyRequestForm::RobotomyRequestForm(std::string name) : AForm(name, 72, 45)
+RobotomyRequestForm::RobotomyRequestForm(std::string target) 
+: AForm("RobotomyRequestForm", target, 72, 45)
 {
 
 }
@@ -10,9 +11,10 @@ RobotomyRequestForm::~RobotomyRequestForm()
 
 }
 
-RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& ref) : AForm(ref.getName(), ref.getGradeTosign(), ref.getGradeToExecute())
+RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& ref) 
+: AForm(ref.getName(), ref.getTarget(), ref.getGradeTosign(), ref.getGradeToExecute())
 {
-
+	setSign(ref.getIsSigned());
 }
 
 
@@ -32,9 +34,9 @@ void		RobotomyRequestForm::execute(Bureaucrat const & executor) const
 	{
 		std::cout << "drrrrrrr........" << std::endl;
 		if (randomGenerator())
-			std::cout << "success!!" << std::endl;
+			std::cout << getTarget() << " has been robotomized successful" << std::endl;
 		else
-			std::cout << "fail" << std::endl;
+			std::cout << getTarget() << " has been robotomized failed" << std::endl;
 	}
 }
 

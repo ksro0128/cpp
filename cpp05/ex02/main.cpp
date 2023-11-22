@@ -1,57 +1,89 @@
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
 
 int main(void)
 {
 	try
 	{
-		Bureaucrat a("surkim", 137); // 정상 실행 Shrubbery
-
-		AForm *form = new ShrubberyCreationForm("testA");
-
-		a.signForm(*form);
-		a.executeForm(*form);
-		delete form;
+		std::cout << "test 1 : normal run (ShrubberyCreationForm)" << std::endl;
+		Bureaucrat person("surkim", 137);
+		ShrubberyCreationForm form("SCF");
+		
+		person.signForm(form);
+		person.executeForm(form);
 	}
 	catch (std::exception& e)
 	{
 		std::cout << "Exception : " << e.what() << std::endl;
 	}
+
 	try
 	{
-		Bureaucrat a("surkim", 137); // 서명이 되어있지 않은 문서를 실행할 경우
-
-		AForm *form = new ShrubberyCreationForm("testB");
-
-		a.executeForm(*form);
-		form->execute(a);
-		delete form;
+		std::cout << std::endl << "test 2 : normal run (RobotomyRequestForm)" << std::endl;
+		Bureaucrat person("surkim", 42);
+		RobotomyRequestForm form("RRF");
+		
+		person.signForm(form);
+		person.executeForm(form);
 	}
 	catch (std::exception& e)
 	{
 		std::cout << "Exception : " << e.what() << std::endl;
 	}
+
 	try
 	{
-		Bureaucrat a("surkim", 145); // 관료의 등급이 문서의 실행등급보다 낮을 경우
-
-		AForm *form = new ShrubberyCreationForm("testC");
-
-		a.signForm(*form);
-		a.executeForm(*form);
-		form->execute(a);
-		delete form;
+		std::cout << std::endl << "test 3 : normal run (PresidentialPardonForm)" << std::endl;
+		Bureaucrat person("surkim", 4);
+		PresidentialPardonForm form("PPF");
+		
+		person.signForm(form);
+		person.executeForm(form);
 	}
 	catch (std::exception& e)
 	{
 		std::cout << "Exception : " << e.what() << std::endl;
 	}
+
 	try
 	{
-		Bureaucrat a("surkim", 45); // 정상 실행 RobotomyRequestForm
-		RobotomyRequestForm f("robot");
-		a.signForm(f);
-		a.executeForm(f);
+		std::cout << std::endl << "test 4 : exception(grade too low - sign)" << std::endl;
+		Bureaucrat person("surkim", 100);
+		PresidentialPardonForm form("PPF");
+		
+		person.signForm(form);
+		form.beSigned(person);
+		person.executeForm(form);
+	}
+	catch (std::exception& e)
+	{
+		std::cout << "Exception : " << e.what() << std::endl;
+	}
+
+	try
+	{
+		std::cout << std::endl << "test 5 : exception(grade too low - execute)" << std::endl;
+		Bureaucrat person("surkim", 6);
+		PresidentialPardonForm form("PPF");
+		
+		person.signForm(form);
+		person.executeForm(form);
+		form.execute(person);
+	}
+	catch (std::exception& e)
+	{
+		std::cout << "Exception : " << e.what() << std::endl;
+	}
+
+	try
+	{
+		std::cout << std::endl << "test 6 : exception(is not signed)" << std::endl;
+		Bureaucrat person("surkim", 6);
+		PresidentialPardonForm form("PPF");
+		
+		person.executeForm(form);
+		form.execute(person);
 	}
 	catch (std::exception& e)
 	{
