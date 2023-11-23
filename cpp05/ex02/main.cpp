@@ -53,7 +53,6 @@ int main(void)
 		PresidentialPardonForm form("PPF");
 		
 		person.signForm(form);
-		form.beSigned(person);
 		person.executeForm(form);
 	}
 	catch (std::exception& e)
@@ -69,7 +68,6 @@ int main(void)
 		
 		person.signForm(form);
 		person.executeForm(form);
-		form.execute(person);
 	}
 	catch (std::exception& e)
 	{
@@ -83,7 +81,6 @@ int main(void)
 		PresidentialPardonForm form("PPF");
 		
 		person.executeForm(form);
-		form.execute(person);
 	}
 	catch (std::exception& e)
 	{

@@ -40,10 +40,8 @@ void		Bureaucrat::signForm(Form &rhs)
 	else if (rhs.getGradeTosign() < _grade)
 		std::cout << _name << " couldn't sign " << rhs.getName() << " because form's grade to sign is higher than " << _name << "'s grade" << std::endl;
 	else
-	{
 		std::cout << _name << " signed " << rhs.getName() << std::endl;
-		rhs.beSigned(*this);
-	}
+	rhs.beSigned(*this);
 }
 
 const char* Bureaucrat::GradeTooHighException::what() const throw() { return ("Grade too high"); }
