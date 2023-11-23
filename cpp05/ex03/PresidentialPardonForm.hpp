@@ -15,7 +15,6 @@ class PresidentialPardonForm : public AForm
 		void	execute(Bureaucrat const & executor) const;
 	private:
 		PresidentialPardonForm();
-		bool randomGenerator() const;
 };
 
 #endif

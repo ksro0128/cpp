@@ -35,9 +35,3 @@ void		PresidentialPardonForm::execute(Bureaucrat const & executor) const
 		std::cout << getTarget() << " has been pardoned by Zaphod Beeblebrox." << std::endl;
 	}
 }
-
-bool	PresidentialPardonForm::randomGenerator() const
-{
-	int time = static_cast<int>(std::time(0));
-	return time % 2;
-}
