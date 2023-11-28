@@ -8,9 +8,6 @@ class B : public Base
 	public:
 		B();
 		~B();
-		B(const B &rhs);
-		B&	operator=(const B& rhs);
-	private:
 };
 
 #endif

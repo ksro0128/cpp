@@ -18,11 +18,9 @@ void identify(Base* p)
 void identify(Base& p) 
 {
 
-	A a;
-	B b;
-	C c;
     try 
 	{
+		A a;
         a = dynamic_cast<A&>(p);
         std::cout << "A" << std::endl;
     } 
@@ -30,6 +28,7 @@ void identify(Base& p)
 
     try 
 	{
+		B b;
         b = dynamic_cast<B&>(p);
         std::cout << "B" << std::endl;
     } 
@@ -37,6 +36,7 @@ void identify(Base& p)
 
     try 
 	{
+		C c;
         c = dynamic_cast<C&>(p);
         std::cout << "C" << std::endl;
     } catch (const std::bad_cast&) {}
