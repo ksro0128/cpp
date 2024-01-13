@@ -18,9 +18,10 @@ RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& ref)
 }
 
 
-RobotomyRequestForm& RobotomyRequestForm::operator=(RobotomyRequestForm ref)
+RobotomyRequestForm& RobotomyRequestForm::operator=(RobotomyRequestForm &ref)
 {
-	swap(ref);
+	if (this != &ref)
+		copy(ref);
 	return (*this);
 }
 

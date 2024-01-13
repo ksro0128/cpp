@@ -18,9 +18,10 @@ PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm& ref
 }
 
 
-PresidentialPardonForm& PresidentialPardonForm::operator=(PresidentialPardonForm ref)
+PresidentialPardonForm& PresidentialPardonForm::operator=(PresidentialPardonForm& ref)
 {
-	swap(ref);
+	if (this != &ref)
+		copy(ref);
 	return (*this);
 }
 

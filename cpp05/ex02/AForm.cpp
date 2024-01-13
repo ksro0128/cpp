@@ -15,6 +15,18 @@ AForm::AForm(const std::string name, const std::string target, const int gradeTo
 		throw (GradeTooLowException());
 }
 
+AForm& AForm::operator=(const AForm& ref)
+{
+	if (this != &ref)
+	{
+		const_cast<std::string&>(_name) = ref._name;
+		const_cast<int&>(_gradeToSign) = ref._gradeToSign;
+		const_cast<int&>(_gradeToExecute) = ref._gradeToExecute;
+		_isSigned = ref._isSigned;
+	}
+	return (*this);
+}
+
 std::string	AForm::getName() const { return (_name); }
 
 std::string AForm::getTarget() const { return (_target);}
@@ -25,6 +37,15 @@ int	AForm::getGradeTosign() const { return (_gradeToSign); }
 
 int AForm::getGradeToExecute() const { return (_gradeToExecute); }
 
+void AForm::copy(AForm &ref)
+{
+	const_cast<std::string&>(_name) = ref._name;
+	const_cast<std::string&>(_target) = ref._target;
+	const_cast<int&>(_gradeToSign) = ref._gradeToSign;
+	const_cast<int&>(_gradeToExecute) = ref._gradeToExecute;
+	_isSigned = ref._isSigned;
+}
+
 void AForm::beSigned(const Bureaucrat& a)
 {
 	if (_isSigned == true)
@@ -33,15 +54,6 @@ void AForm::beSigned(const Bureaucrat& a)
 		_isSigned = true;
 	else
 		throw (GradeTooLowException());
-}
-
-void AForm::swap(AForm &rhs)
-{
-	std::swap(const_cast<std::string&>(_name), const_cast<std::string&>(rhs._name));
-	std::swap(const_cast<std::string&>(_target), const_cast<std::string&>(rhs._target));
-	std::swap(const_cast<int&>(_gradeToSign), const_cast<int&>(rhs._gradeToSign));
-	std::swap(const_cast<int&>(_gradeToExecute), const_cast<int&>(rhs._gradeToExecute));
-	std::swap(_isSigned, rhs._isSigned);
 }
 
 void AForm::setSign(bool sign)

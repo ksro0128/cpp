@@ -18,9 +18,10 @@ ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& ref)
 }
 
 
-ShrubberyCreationForm& ShrubberyCreationForm::operator=(ShrubberyCreationForm ref)
+ShrubberyCreationForm& ShrubberyCreationForm::operator=(ShrubberyCreationForm& ref)
 {
-	swap(ref);
+	if (this != &ref)
+		copy(ref);
 	return (*this);
 }
 

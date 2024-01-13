@@ -23,16 +23,19 @@ AForm* Intern::makeForm(const std::string name, const std::string target) const
 
 AForm* Intern::makeShrubberyCreationForm(std::string target) const
 {
+	std::cout << "Intern creates ShrubberyCreationForm" << std::endl;
     return new ShrubberyCreationForm(target);
 }
 
 AForm* Intern::makeRobotomyRequestForm(std::string target) const
 {
+	std::cout << "Intern creates RobotomyRequestForm" << std::endl;
     return new RobotomyRequestForm(target);
 }
 
 AForm* Intern::makePresidentialPardonForm(std::string target) const
 {
+	std::cout << "Intern creates PresidentialPardonForm" << std::endl;
     return new PresidentialPardonForm(target);
 }
 
