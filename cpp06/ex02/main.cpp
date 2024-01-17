@@ -17,14 +17,13 @@ void identify(Base* p)
 
 void identify(Base& p) 
 {
-
     try 
 	{
 		A a;
         a = dynamic_cast<A&>(p);
         std::cout << "A" << std::endl;
     } 
-	catch (const std::exception& e) {}
+	catch (const std::bad_cast& e) {}
 
     try 
 	{
@@ -48,22 +47,22 @@ Base* generate()
 	rtime %= 3;
 	switch (rtime)
 	{
-	case 0 :
-		return new A();
-	case 1 :
-		return new B();
-	case 2 :
-		return new C();
-	default :
-		return NULL;
+		case 0 :
+			return new A();
+		case 1 :
+			return new B();
+		case 2 :
+			return new C();
+		default :
+			return NULL;
 	}
 }
 
 int main()
 {
 	Base *x = generate();
+
 	identify(*x);
 	identify(x);
 	delete x;
-	return 0;
 }

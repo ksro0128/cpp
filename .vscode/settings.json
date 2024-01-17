@@ -70,6 +70,7 @@
 		"iterator": "cpp",
 		"stack": "cpp",
 		"utility": "cpp",
-		"*.tpp": "cpp"
+		"*.tpp": "cpp",
+		"list": "cpp"
 	}
 }

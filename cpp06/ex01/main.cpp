@@ -6,7 +6,8 @@ struct Data
     int value;
 };
 
-int main() {
+int main(void) 
+{
     Data myData;
     myData.value = 42;
 

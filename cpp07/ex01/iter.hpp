@@ -3,11 +3,15 @@
 
 # include <iostream>
 
-template<typename Tarr, typename Tfunc>
-void iter(Tarr *arr, size_t length, Tfunc a)
+template<typename T>
+void iter(T *arr, size_t length, void (* f)(T &))
 {
+	if (arr == NULL || f == NULL)
+		throw std::logic_error("Null pointer input");
 	for (size_t i = 0; i < length; i++)
-		a(arr[i]);
+	{
+		f(arr[i]);
+	}
 }
 
 #endif

@@ -7,7 +7,7 @@ template <typename T>
 class Array
 {
 	public:
-		Array() : _data(new T[0]), _size(0) {};
+		Array() : _data(NULL), _size(0) {};
 		explicit Array(unsigned int n) : _size(n)
 		{
 			_data = new T[_size];
@@ -21,10 +21,15 @@ class Array
 			for (unsigned int i = 0; i < _size; i++)
 				_data[i] = rhs._data[i];
 		};
-		Array &operator=(Array rhs)
+		Array &operator=(const Array& rhs)
 		{
-			std::swap(_size, rhs._size);
-			std::swap(_data, rhs._data);
+			if (this == &rhs)
+				return *this;
+			delete[] _data;
+			_data = new T [_size];
+			for (unsigned int i = 0; i < rhs._size; i++)
+				_data[i] = rhs._data[i];
+			_size = rhs._size;
 			return *this;
 		};
 		T &operator[](const unsigned int index)

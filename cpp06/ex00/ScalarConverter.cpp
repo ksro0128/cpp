@@ -2,244 +2,234 @@
 
 void ScalarConverter::convert(std::string str)
 {
-	switch (determineType(str))
+	if (str.length() == 0)
 	{
-		case 1 :
-		{
-			char x = str[0];
-			charDisplay(x);
+		std::cout << "Don't input NULL" << std::endl;
+		return ;
+	}
+	int	type = getType(str);
+	switch (type)
+	{
+		case M_CHAR :
+			caseChar(str);
 			break ;
-		}
-		case 2 :
-		{
-			intDisplay(strtol(str.c_str(), NULL, 10));
+		case M_INT :
+			caseInt(str);
 			break ;
-		}
-		case 3 :
-		{
-			float x = strtof(str.c_str(), NULL);
-			floatDisplay(x, hasDecimal(x));
+		case M_FLOAT :
+			caseFloat(str);
 			break ;
-		}
-		case 4 :
-		{
-			double x = strtod(str.c_str(), NULL);
-			doubleDisplay(x, hasDecimal(x));
+		case M_DOUBLE :
+			caseDouble(str);
 			break ;
-		}
-		case 5 :
-		{
-			float x;
-			if (str == "-inff")
-				x = -std::numeric_limits<float>::infinity();
-			else if (str == "inff" || str == "+inff")
-				x = std::numeric_limits<float>::infinity();
-			else
-				x = std::numeric_limits<float>::quiet_NaN();
-			floatDisplay(x, 2);
-			break ;
-		}
-		case 6 :
-		{
-			double x;
-			if (str == "-inf")
-				x = -std::numeric_limits<double>::infinity();
-			else if (str == "inf" || str == "+inf")
-				x = std::numeric_limits<double>::infinity();
-			else
-				x = std::numeric_limits<double>::quiet_NaN();
-			doubleDisplay(x, 2);
-			break ;
-		}
 		default :
-			std::cout << "Bad input" << std::endl;
-			break ;
+			std::cout << "error" << std::endl;
 	}
 }
 
-int ScalarConverter::determineType(std::string str)
+int ScalarConverter::getType(std::string str)
 {
-	if (str.size() == 0)
-		return 0;
-	if (str == "-inff" || str == "+inff" || str == "inff" || str == "nanf")
-		return 5;
-	if (str == "-inf" || str == "+inf" || str == "inf" || str == "nan")
-		return 6;
-	if (isDigitInString(str))
-	{
-		if (isInt(str))
-			return 2;
-		else
-			return 0;
-	}
-	else if (str.size() == 1)
-		return 1;
-	else if (isFloatOrDouble(str))
-	{
-		if (floatOrDouble(str))
-			return 3;
-		else
-			return 4;
-	}
+	if (str.length() == 1 && isdigit(str[0]) == 0)
+		return (M_CHAR);
+	else if (isInt(str) == 1)
+		return (M_INT);
+	else if (isInt(str) == -1)
+		return (M_OVERFLOW);
 	else
-		return 0;
+		return (isFloatDouble(str));
 }
 
-bool ScalarConverter::isDigitInString(std::string str)
+int ScalarConverter::isInt(std::string str)
 {
-	size_t i = 0;
+	size_t	i = 0;
+
 	if (str[i] == '+' || str[i] == '-')
 		i++;
-	if (i == 1 && str.size() == 1)
-		return false;
-	while (i < str.size())
+	while (str[i])
 	{
-		if (!isdigit(str[i]))
-			return false;
+		if (isdigit(str[i]) == 0)
+			return (0);
 		i++;
 	}
-	return true;
-}
-
-bool ScalarConverter::isInt(std::string str)
-{
-	const char *cstr = str.c_str();
-	long long x = strtoll(cstr, NULL, 10);
+	if (i > 11)
+		return (0);
+	long long	x;
+	std::istringstream iss(str);
+	iss >> x;
 	if (x < -2147483648 || x > 2147483647)
-		return false;
-	return true;
+		return (-1);
+	return (1);
 }
 
-bool ScalarConverter::isFloatOrDouble(std::string str)
+int	ScalarConverter::isFloatDouble(std::string str)
 {
-	size_t i = 0;
+	size_t	i = 0;
+	bool	flag = false;
+	if (str == ".f")
+		return (M_ERROR);
 	if (str[i] == '+' || str[i] == '-')
 		i++;
-	if (str[0] == '.')
-		return false;
-	bool pointFlag = false;
-	bool fFlag = false;
-	while (i < str.size())
+	while (i < str.length() - 1)
 	{
-		if (fFlag == true)
-			return false;
-		if (pointFlag == false && !isdigit(str[i]))
+		if (str[i] == '.')
 		{
-			if (str[i] == '.')
-				pointFlag = true;
-			else
-				return false;
+			if (flag == true)
+				return (M_ERROR);
+			flag = true;
+			i++;
+			continue ;
 		}
-		else if (pointFlag == true && !isdigit(str[i]))
-		{
-			if (str[i] == 'f' || str[i] == 'F')
-				fFlag = true;
-			else
-				return false;
-		}
+		if (isdigit(str[i]) == 0)
+			return (M_ERROR);
 		i++;
 	}
-	return true;
+	if (flag == false && str[i] == '.')
+		return (M_DOUBLE);
+	if (flag == false)
+		return (M_ERROR);
+	if (str[i] == 'F' || str[i] == 'f')
+		return (M_FLOAT);
+	if (isdigit(str[i]))
+		return (M_DOUBLE);
+	return (M_ERROR);
 }
 
-bool ScalarConverter::floatOrDouble(std::string str)
+void	ScalarConverter::caseChar(std::string str)
 {
-	if (str[str.size() - 1] == 'f' || str[str.size() - 1] == 'F')
-		return true;
-	else
-		return false;
-}
+	char	x;
 
-void ScalarConverter::charDisplay(char x)
-{
-	std::cout << "char: '" << x << "'" << std::endl;
+	std::istringstream iss(str);
+	iss >> x;
+	std::cout << "char: " << x << std::endl;
 	std::cout << "int: " << static_cast<int>(x) << std::endl;
-	std::cout << "float: " << static_cast<float>(x) << ".0f" << std::endl;
-	std::cout << "double: " << static_cast<double>(x) << ".0" << std::endl;
+	std::cout << std::fixed << std::setprecision(1) << "float: " << static_cast<float>(x) << "f" << std::endl;
+	std::cout << "double: " << static_cast<double>(x) << std::endl;
 }
 
-void ScalarConverter::intDisplay(int x)
+void	ScalarConverter::caseInt(std::string str)
 {
-	std::cout << "char: ";
-	if ((x > 0 && x < 32) || x == 127)
-		std::cout << "Non displayalbe" << std::endl;
+	int	x;
+
+	std::istringstream iss(str);
+	iss >> x;
+	if ((x >= 0 && x < 32) || x == 127)
+		std::cout << "char: " << "Non displayable" << std::endl;
 	else if (x < 0 || x > 127)
-		std::cout << "impossible" << std::endl;
+		std::cout << "char: " << "Impossible" << std::endl;
 	else
-		std::cout << "'" << static_cast<char>(x) << "'" << std::endl;
-	std::cout << "int: " << static_cast<int>(x) << std::endl;
-	std::cout << "float: " << static_cast<float>(x) << ".0f" << std::endl;
-	std::cout << "double: " << static_cast<double>(x) << ".0" << std::endl;
+		std::cout << "char: '" << static_cast<char>(x) << "'" << std::endl;
+	std::cout << "int: " << x << std::endl;
+	std::cout << std::fixed << std::setprecision(1) << "float: " << static_cast<float>(x) << "f" << std::endl;
+	std::cout << "double: " << static_cast<double>(x) << std::endl;
 }
 
-void ScalarConverter::floatDisplay(float x, int flag)
+void	ScalarConverter::caseFloat(std::string str)
 {
-	if (flag == 2)
+	float	x;
+	int		p;
+	size_t	sign = 0;
+	
+	if (str[0] == '+' || str[0] == '-')
+		sign = 1;
+	if (str.length() > 8 + sign)
 	{
-		std::cout << "char: impossible" << std::endl;
-		std::cout << "int: impossible" << std::endl;
-		std::cout << "float: " << static_cast<float>(x) << "f" << std::endl;
-		std::cout << "double: " << static_cast<double>(x) << std::endl;
+		std::cout << "Float precision exceeded" << std::endl;
 		return ;
 	}
-	std::cout << "char: ";
-	if ((x > 0 && x < 32) || x == 127)
-		std::cout << "Non displayalbe" << std::endl;
-	else if (x < 0 || x > 127)
-		std::cout << "impossible" << std::endl;
-	else
-		std::cout << "'" << static_cast<char>(x) << "' (warning: It may not be accurate.)" << std::endl;
-	std::cout << "int: " << static_cast<int>(x) << " (warning: It may not be accurate.)" << std::endl;
-	if (flag)
+	str.resize(str.length() - 1);
+	std::istringstream iss(str);
+	iss >> x;
+	p = getDecimalPrecision(str);
+	if (p == 0)
 	{
-		std::cout << "float: " << x << "f" << std::endl;
+		if ((x >= 0 && x < 32) || x == 127)
+			std::cout << "char: " << "Non displayable" << std::endl;
+		else if (x < 0 || x > 127)
+			std::cout << "char: " << "Impossible" << std::endl;
+		else
+			std::cout << "char: '" << static_cast<char>(x) << "'" << std::endl;
+	}
+	else
+		std::cout << "char: Impossible" << std::endl;
+	if (p == 0)
+		std::cout << "int: " << static_cast<int>(x) << std::endl;
+	else
+		std::cout << "int: Impossible" << std::endl;
+	if (p == 0)
+	{
+		std::cout << std::fixed << std::setprecision(1) << "float: " << x << "f" << std::endl;
 		std::cout << "double: " << static_cast<double>(x) << std::endl;
 	}
 	else
 	{
-		std::cout << "float: " << x << ".0f" << std::endl;
-		std::cout << "double: " << static_cast<double>(x) << ".0" << std::endl;
+		std::cout << std::fixed << std::setprecision(p) << "float: " << x << "f" << std::endl;
+		std::cout << "double: " << static_cast<double>(x) << std::endl;
 	}
 }
 
-void ScalarConverter::doubleDisplay(double x, int flag)
+void	ScalarConverter::caseDouble(std::string str)
 {
-	if (flag == 2)
+	double	x;
+	int		p;
+	size_t	sign = 0;
+	
+	if (str[0] == '+' || str[0] == '-')
+		sign = 1;
+	if (str.length() > 16 + sign)
 	{
-		std::cout << "char: impossible" << std::endl;
-		std::cout << "int: impossible" << std::endl;
-		std::cout << "float: " << static_cast<float>(x) << "f" << std::endl;
-		std::cout << "double: " << x << std::endl;
+		std::cout << "Double precision exceeded" << std::endl;
 		return ;
 	}
-	std::cout << "char: ";
-	if ((x > 0 && x < 32) || x == 127)
-		std::cout << "Non displayalbe" << std::endl;
-	else if (x < 0 || x > 127)
-		std::cout << "impossible" << std::endl;
-	else
-		std::cout << "'" << static_cast<char>(x) << "' (warning: It may not be accurate.)" << std::endl;
-	std::cout << "int: " << static_cast<int>(x) << " (warning: It may not be accurate.)" << std::endl;
-	if (flag)
+	std::istringstream iss(str);
+	iss >> x;
+	p = getDecimalPrecision(str);
+	if (p == 0)
 	{
-		std::cout << "float: " << static_cast<float>(x) << "f (warning: It may not be accurate.)" << std::endl;
+		if ((x >= 0 && x < 32) || x == 127)
+			std::cout << "char: " << "Non displayable" << std::endl;
+		else if (x < 0 || x > 127)
+			std::cout << "char: " << "Impossible" << std::endl;
+		else
+			std::cout << "char: '" << static_cast<char>(x) << "'" << std::endl;
+	}
+	else
+		std::cout << "char: Impossible" << std::endl;
+	if (x < -2147483648.0 || x > 2147483647.0)
+		std::cout << "int: Impossible" << std::endl;
+	else if (p == 0)
+		std::cout << "int: " << static_cast<int>(x) << std::endl;
+	else
+		std::cout << "int: Impossible" << std::endl;
+	if (p == 0)
+	{
+		std::cout << std::fixed << std::setprecision(1) << "float: " << static_cast<float>(x) << "f" << std::endl;
 		std::cout << "double: " << x << std::endl;
 	}
 	else
 	{
-		std::cout << "float: " << static_cast<float>(x) << ".0f (warning: It may not be accurate.)" << std::endl;
-		std::cout << "double: " << x << ".0" << std::endl;
+		std::cout << std::fixed << std::setprecision(p) << "float: " << static_cast<float>(x) << "f" << std::endl;
+		std::cout << "double: " << x << std::endl;
 	}
 }
 
-bool ScalarConverter::hasDecimal(float x) 
+int	ScalarConverter::getDecimalPrecision(std::string str)
 {
-    float fractionalPart = x - static_cast<int>(x);
-    return fractionalPart > 0.0f;
-}
+	size_t	i = 0;
+	int		ret = 0;
+	int		zeroCnt = 0;
 
-bool ScalarConverter::hasDecimal(double x) 
-{
-    double fractionalPart = x - static_cast<int>(x);
-    return fractionalPart > 0.0;
+	i = str.find('.', 0);
+	i++;
+	while (str[i])
+	{
+		if (str[i] == '0')
+			zeroCnt++;
+		i++;
+		ret++;
+	}
+	if (str[i - 1] == 'f' || str[i - 1] == 'F')
+		ret--;
+	if (ret == zeroCnt)
+		ret = 0;
+	return (ret);
 }

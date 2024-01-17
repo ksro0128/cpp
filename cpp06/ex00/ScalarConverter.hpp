@@ -5,6 +5,14 @@
 # include <sstream>
 # include <cstdlib>
 # include <cmath>
+# include <iomanip>
+
+# define M_CHAR			1
+# define M_INT			2
+# define M_FLOAT		3
+# define M_DOUBLE		4
+# define M_OVERFLOW		5
+# define M_ERROR		6
 
 class ScalarConverter
 {
@@ -14,19 +22,16 @@ class ScalarConverter
 		ScalarConverter();
 		~ScalarConverter();
 		ScalarConverter(const ScalarConverter& rhs);
-		ScalarConverter&	operator=(const ScalarConverter& rhs);
-		static int determineType(std::string str);
-		static bool isDigitInString(std::string str);
-		static bool isInt(std::string str);
-		static bool isFloatOrDouble(std::string str);
-		static bool floatOrDouble(std::string str);
-		static void charDisplay(char x);
-		static void intDisplay(int x);
-		static void floatDisplay(float x, int flag);
-		static void doubleDisplay(double x, int flag);
-		static bool hasDecimal(float x);
-		static bool hasDecimal(double x);
-
+		ScalarConverter& operator=(const ScalarConverter& rhs);
+		static int	getType(std::string str);
+		static int	isInt(std::string str);
+		static int	isFloatDouble(std::string str);
+		static void	caseNull(std::string str);
+		static void	caseChar(std::string str);
+		static void	caseInt(std::string str);
+		static void	caseFloat(std::string str);
+		static void	caseDouble(std::string str);
+		static int	getDecimalPrecision(std::string str);
 };
 
 #endif
