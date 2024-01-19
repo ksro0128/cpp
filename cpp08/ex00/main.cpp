@@ -1,4 +1,5 @@
 #include "easyfind.hpp"
+#include <iostream>
 #include <vector>
 #include <list>
 
@@ -14,25 +15,15 @@ int main()
 		v.push_back(1);
 		v.push_back(2);
 		v.push_back(3);
-		std::vector<int>::iterator viter = easyfind(v, 3);
-		for (; viter != v.end(); viter++)
-			std::cout << *viter << ' ';
+		std::vector<int>::iterator iter = easyfind(v, 3);
+		std::cout << "return == " << *iter << std::endl; // 리턴 확인
+		
+		for (; iter != v.end(); iter++) // 제일 먼저 찾은 것이 나온건지 확인
+			std::cout << *iter << ' ';
 		std::cout << std::endl;
-		std::list<int> l;
-		l.push_back(1);
-		l.push_back(2);
-		l.push_back(3);
-		l.push_back(4);
-		l.push_back(1);
-		l.push_back(2);
-		l.push_back(3);
-		std::list<int>::iterator liter = easyfind(l, 2);
-		for (; liter != l.end(); liter++)
-			std::cout << *liter << ' ';
-		std::cout << std::endl;
-		std::list<int>::iterator liter_error = easyfind(l, 7);
-		for (; liter_error != l.end(); liter_error++)
-			std::cout << *liter_error << ' ';
+
+		std::vector<int>::iterator iterError = easyfind(v, 42); // 없는 거 확인 error
+		std::cout << *iterError << std::endl;
 	}
 	catch (std::exception &e)
 	{

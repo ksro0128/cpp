@@ -2,24 +2,32 @@
 # define SPAN_HPP
 
 # include <iostream>
-# include <vector>
+# include <algorithm>
+# include <map>
 # include <exception>
 
 class Span
 {
 	public:
-		explicit Span(unsigned int n);
+		Span(unsigned int n);
 		~Span();
 		Span(const Span& rhs);
-		Span &operator=(Span rhs);
-		void addNumber(int num);
+		Span &operator=(const Span& rhs);
+		void addNumber(const int num);
 		unsigned int shortestSpan();
 		unsigned int longestSpan();
-		
+		template<typename T>
+		void addNumbers(T begin, T end)
+		{
+			for (T it = begin; it != end; it++)
+				addNumber(*it);
+		}
+
 	private:
 		Span();
-		std::vector<int> _v;
-		int _maxSize;
+		std::map<int, bool> _m;
+		size_t				_maxSize;
+		unsigned int		_shortest;
 };
 
 #endif

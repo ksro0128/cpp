@@ -1,47 +1,73 @@
 #include "Span.hpp"
 
-Span::Span(unsigned int n) : _maxSize(n) {}
+Span::Span(unsigned int n) : _maxSize(n), _shortest(4294967295) {}
 
 Span::~Span() { }
 
-Span::Span(const Span& rhs) : _maxSize(rhs._maxSize)
+Span::Span(const Span& rhs) : _maxSize(rhs._maxSize), _shortest(rhs._shortest)
 {
-	int vsize = rhs._v.size();
-	for (int i = 0; i < vsize; i++)
+	_m = rhs._m;
+}
+
+Span &Span::operator=(const Span& rhs)
+{
+	if (this == &rhs)
+		return *this;
+	_m = rhs._m;
+	_maxSize = rhs._maxSize;
+	_shortest = rhs._shortest;
+	return *this;
+}
+
+void Span::addNumber(const int num)
+{
+	if (_m.size() >= _maxSize)
+		throw std::runtime_error("Span capacity exceeded");
+	else if (_m[num] == true)
+		throw std::runtime_error("Duplicate number addition attempt");
+	_m[num] = true;
+	std::map<int, bool>::iterator iter = _m.find(num);
+	std::map<int, bool>::iterator last = _m.end();
+	last--;
+	if (_m.size() > 1)
 	{
-		_v.push_back(rhs._v[i]);
+		unsigned int x;
+		if (iter == _m.begin())
+		{
+			iter++;
+			x = iter->first - num;
+		}
+		else if (iter == last)
+		{
+			iter--;
+			x = num - iter->first;
+		}
+		else
+		{
+			iter++;
+			x = iter->first - num;
+			iter--;
+			iter--;
+			unsigned int y = num - iter->first;
+			x = std::min(x, y);
+		}
+		_shortest = std::min(x, _shortest);
 	}
-}
-
-Span &Span::operator=(Span rhs)
-{
-	std::swap(_v, rhs._v);
-	std::swap(_maxSize, rhs._maxSize);
-	return (*this);
-}
-
-void Span::addNumber(int num)
-{
-	int vsize = _v.size();
-	if (vsize >= _maxSize)
-		throw std::out_of_range("Index out of bounds");
-	_v.push_back(num);
 }
 
 unsigned int Span::shortestSpan()
 {
-	int vsize = _v.size();
-	if (vsize <= 1)
-		throw std::invalid_argument("it must have at least 2 elements");
-	sort(_v.begin(), _v.end());
-	unsigned int ret = 4294967295;
-	for (int i = 0; i < vsize - 1; i++)
-	{
-		unsigned int tmp = _v[i + 1] - _v[i];
-		if (tmp < ret)
-			ret = _v[i + 1] - _v[i];
-	}
-	return ret;
+	if (_m.size() < 2)
+		throw std::runtime_error("Can not get shortestSpan");
+	return _shortest;
 }
 
-unsigned int Span::longestSpan() {return _v[_v.size() - 1] - _v[0];}
+unsigned int Span::longestSpan() 
+{
+	if (_m.size() < 2)
+		throw std::runtime_error("Can not get longestSpan");
+	std::map<int, bool>::iterator iter = _m.end();
+	iter--;
+	unsigned int ret = iter->first - _m.begin()->first;
+	return  ret;
+}
